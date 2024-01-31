@@ -1,7 +1,7 @@
-// @ts-ignore
+
 const aposToLexForm = require("apos-to-lex-form");
 const { WordTokenizer, SentimentAnalyzer, PorterStemmer } = require("natural");
-// @ts-ignore
+
 const SpellCorrector = require("spelling-corrector");
 const stopword = require("stopword");
 
