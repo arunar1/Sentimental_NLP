@@ -31,7 +31,7 @@ function getSentiment(str) {
   console.log(analyzed)
 
   if (analyzed >= 0.6) return 1; // positive
-  if (analyzed > 0 ) return 0;
+  if (analyzed >= 0 ) return 0;
   return -1;
 }
 
