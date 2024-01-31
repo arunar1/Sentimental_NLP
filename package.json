@@ -1,0 +1,19 @@
+{
+  "name": "sentimental_nlp",
+  "version": "1.0.0",
+  "description": "created by politiscan team",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "arun ar",
+  "license": "ISC",
+  "dependencies": {
+    "apos-to-lex-form": "^1.0.5",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "natural": "^6.10.4",
+    "spelling-corrector": "^3.0.0",
+    "stopword": "^3.0.1"
+  }
+}
