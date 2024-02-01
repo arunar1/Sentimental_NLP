@@ -16,7 +16,7 @@ function getSentiment(str) {
     return 0; // Assuming missing or empty input is neutral
   }
 
-  const lexed = str.toLowerCase().replace(/[^a-zA-Z\s]+/g, "");
+  const lexed = aposToLexForm(str).toLowerCase().replace(/[^a-zA-Z\s]+/g, "");
 
   const tokenized = tokenizer.tokenize(lexed);
   console.log(tokenized)
