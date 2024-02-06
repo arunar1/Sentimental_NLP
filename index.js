@@ -32,9 +32,15 @@ app.post('/api/sentiment', (req, res) => {
     // Send output back to client once Python script execution is completed
     pythonProcess.on('close', (code) => {
         console.log(`Python script exited with code ${code}`);
+        console.log(output)
         res.json({ sentiment: output.split("\n")[0] });
+
     });
 });
+
+app.get('/user',(req,res)=>{
+    res.send("Welcome")
+})
 
 // Start the server
 app.listen(PORT, () => {
