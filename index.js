@@ -11,10 +11,13 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.post('/api/sentiment', (req, res) => {
+
     const inputData = req.body.text;
     
+    console.log(inputData)
+
     // Call Python script with input data as command-line argument
-    const pythonProcess = spawn('python3', ['./inference.py', inputData]);
+    const pythonProcess = spawn('poetry', ['run','python','./inference.py', inputData]);
 
     let output = '';
 

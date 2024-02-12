@@ -4,9 +4,15 @@ import re
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import warnings
+import logging
+
 import sklearn
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=sklearn.exceptions.InconsistentVersionWarning)
+
+import nltk
+nltk.download('wordnet', quiet=True)
+
 import pandas as pd
 
 emojis = {':)': 'smile', ':-)': 'smile', ';d': 'wink', ':-E': 'vampire', ':(': 'sad',
@@ -49,7 +55,7 @@ def preprocess(textdata):
 
     # Defining regex patterns.
     urlPattern        = r"((http://)[^ ]*|(https://)[^ ]*|( www\.)[^ ]*)"
-    userPattern       = '@[^\s]+'
+    userPattern       = r"@[^\s]+"
     alphaPattern      = "[^a-zA-Z0-9]"
     sequencePattern   = r"(.)\1\1+"
     seqReplacePattern = r"\1\1"
@@ -84,11 +90,11 @@ def preprocess(textdata):
 
 def load_models():
     # Load the vectoriser.
-    with open('/home/arun-ar/Sentimental_NLP/vectoriser-ngram-(1,2).pickle', 'rb') as file:
+    with open('./vectoriser-ngram-(1,2).pickle', 'rb') as file:
         vectoriser = pickle.load(file)
 
     # Load the LR Model.
-    with open('/home/arun-ar/Sentimental_NLP/Sentiment-LR.pickle', 'rb') as file:
+    with open('./Sentiment-LR.pickle', 'rb') as file:
         LRmodel = pickle.load(file)
 
     return vectoriser, LRmodel
