@@ -4,10 +4,6 @@
       {
         "src": "./index.js",
         "use": "@vercel/node"
-      },
-      {
-        "src": "requirements.txt",
-        "use": "@vercel/static-build"
       }
     ],
     "routes": [

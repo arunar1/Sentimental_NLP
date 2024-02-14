@@ -1,16 +1,29 @@
 const express = require('express');
 const { spawn } = require('child_process');
 const morgan = require('morgan');
+const cors = require("cors");
+const bodyParser = require('body-parser');
+
+
 
 const app = express();
-const PORT = 3000; // You can change the port number as per your preference
+const PORT =4000; // You can change the port number as per your preference
 
 // Use Morgan middleware for logging
 app.use(morgan('dev'));
 // Parse JSON bodies
 app.use(express.json());
+// app.use(bodyParser.json());
+
+
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+    })
+  );
 
 app.post('/api/sentiment', (req, res) => {
+    // console.log(req)
 
     const inputData = req.body.text;
     
@@ -36,7 +49,10 @@ app.post('/api/sentiment', (req, res) => {
     pythonProcess.on('close', (code) => {
         console.log(`Python script exited with code ${code}`);
         console.log(output)
-        res.json({ sentiment: output.split("\n")[0] });
+        return res.send({ sentiment: output.trim() });
+
+        res.json({ sentiment: output.trim() });
+        // res.send(output)
 
     });
 });
