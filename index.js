@@ -3,7 +3,7 @@ const { spawn } = require('child_process');
 const morgan = require('morgan');
 
 const app = express();
-const PORT = 6000; // You can change the port number as per your preference
+const PORT = 3000; // You can change the port number as per your preference
 
 // Use Morgan middleware for logging
 app.use(morgan('dev'));
