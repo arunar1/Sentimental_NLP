@@ -94,7 +94,7 @@ def load_models():
         vectoriser = pickle.load(file)
 
     # Load the LR Model.
-    with open('./Sentiment-LR.pickle', 'rb') as file:
+    with open('./Sentiment-SVCM.pickle', 'rb') as file:
         LRmodel = pickle.load(file)
 
     return vectoriser, LRmodel
