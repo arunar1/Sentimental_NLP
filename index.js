@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:4000',
     })
   );
 
@@ -51,7 +51,7 @@ app.post('/api/sentiment', (req, res) => {
         console.log(output)
         return res.send({ sentiment: output.trim() });
 
-        res.json({ sentiment: output.trim() });
+        // res.json({ sentiment: output.trim() });
         // res.send(output)
 
     });

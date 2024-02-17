@@ -10,8 +10,8 @@ import sklearn
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=sklearn.exceptions.InconsistentVersionWarning)
 
-import nltk
-nltk.download('wordnet', quiet=True)
+# import nltk
+# nltk.download('wordnet', quiet=True)
 
 import pandas as pd
 
@@ -41,11 +41,11 @@ stopwordlist = ['a', 'about', 'above', 'after', 'again', 'ain', 'all', 'am', 'an
              "youve", 'your', 'yours', 'yourself', 'yourselves']
 
 
-import sys
-import pickle
-import re
-from nltk.stem import WordNetLemmatizer
-from sklearn.feature_extraction.text import TfidfVectorizer
+# import sys
+# import pickle
+# import re
+# from nltk.stem import WordNetLemmatizer
+# from sklearn.feature_extraction.text import TfidfVectorizer
 
 def preprocess(textdata):
     processedText = []
@@ -94,7 +94,7 @@ def load_models():
         vectoriser = pickle.load(file)
 
     # Load the LR Model.
-    with open('./Sentiment-SVCM.pickle', 'rb') as file:
+    with open('./Sentiment-LR.pickle', 'rb') as file:
         LRmodel = pickle.load(file)
 
     return vectoriser, LRmodel
