@@ -2,18 +2,36 @@ const express = require('express');
 const { spawn } = require('child_process');
 const morgan = require('morgan');
 const cors = require("cors");
-const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs')
+const dotenv = require('dotenv')
+dotenv.config()
 
 
+
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.jwt_code
 
 const app = express();
 const PORT =4000; // You can change the port number as per your preference
 
-// Use Morgan middleware for logging
+
+const mongoose = require('mongoose');
+
+
+const mongourl = process.env.mong_url;
+
+mongoose.connect(mongourl, { useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
+
+
 app.use(morgan('dev'));
-// Parse JSON bodies
+
 app.use(express.json());
-// app.use(bodyParser.json());
 
 
 app.use(
