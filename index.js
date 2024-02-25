@@ -59,8 +59,10 @@ app.post('/api/sentiment', (req, res) => {
 
 app.post('/registration', (req, res) => {
     console.log(req.body)
-    res.send('POST request to /api/registration');
+    res.send('POST request to /registration');
 });
+
+
 
 app.get('/user',(req,res)=>{
     res.send("Welcome")
