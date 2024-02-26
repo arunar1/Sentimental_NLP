@@ -43,6 +43,7 @@ app.use(
 
 const user=require('./databasemodel/registrationmodel/usermodel')
 
+const admin=require('./databasemodel/registrationmodel/admin')
 
 
 app.post('/api/sentiment', (req, res) => {
@@ -82,38 +83,148 @@ app.post('/api/sentiment', (req, res) => {
 
 app.post('/registration', async(req, res) => {
     console.log(req.body);
+    const picdata=req.body;
+    console.log(picdata)
     const data = req.body.info;
+    let userType=data.userType;
     const search = { "aadharNo": data.aadharNo };
+    if(userType==='user'){
+        try {
+            const existingUser = await user.findOne(search);
+            if (existingUser) {
+                console.log("User exists");
+                return res.status(400).json({ error: 'User already exists with this Aadhar number' });
+            }
+    
+            const hashedPassword = await bcrypt.hash(data.password, 10);
+    
+            const newUser = await user.create({
+                name: data.name,
+                age: data.age,
+                aadharNo: data.aadharNo,
+                gender: data.gender,
+                constituency: data.constituency,
+                mobileNumber: data.mobileNumber,
+                email: data.email,
+                password: hashedPassword,
+                aadharImage: picdata.aadhar,
+                profileImage: picdata.profile,
+                userType: data.userType
+            });
+    
+            res.status(201).json({ message: 'User registered successfully', user: newUser });
+        } catch (error) {
+            console.error('Error registering user:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+    else if(userType==='admin'){
+        try {
+            const existingUser = await user.findOne(search);
+            if (existingUser) {
+                console.log("Admin exists");
+                return res.status(400).json({ error: 'User already exists with this Aadhar number' });
+            }
+    
+            const hashedPassword = await bcrypt.hash(data.password, 10);
+    
+            const newUser = await user.create({
+                name: data.name,
+                age: data.age,
+                adminId:data.adminId,
+                aadharNo: data.aadharNo,
+                gender: data.gender,
+                constituency: data.constituency,
+                mobileNumber: data.mobileNumber,
+                email: data.email,
+                password: hashedPassword,
+                aadharImage: data.aadharImage,
+                profileImage: data.profileImage,
+                userType: data.userType
+            });
+    
+            res.status(201).json({ message: 'User registered successfully', user: newUser });
+        } catch (error) {
+            console.error('Error registering user:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+    
+});
 
-    try {
-        const existingUser = await user.findOne(search);
-        if (existingUser) {
-            console.log("User exists");
-            return res.status(400).json({ error: 'User already exists with this Aadhar number' });
+
+
+app.post('/login', async (req, res) => {
+   
+    const login = req.body;
+    console.log(login)
+    const email=login.email;
+    const loginpass=login.password;
+    
+    const search = { "email": email }
+
+    const flag1 = await user.findOne(search);
+    const flag2 = await admin.findOne(search); 
+
+    console.log(flag1)
+    console.log(flag2)
+
+
+        try {
+            if (!flag1) {
+                return res.json({ error: "user not available" });
+            }
+            else{
+                if (await bcrypt.compare(loginpass, flag1.password)) {
+                    const token = jwt.sign({ email: flag1.email }, JWT_SECRET)
+                    if (res.status(201)) {
+                        return res.json({
+                            status: 'ok', token: token, details: flag1
+                        })
+                    }
+                    else {
+                        return res.json({ error: "error" });
+                    }
+                }
+                res.send({ staus: 'error', error: "invalid password" });
+            }
+
+        } catch (error) {
+            console.log(error)
+
         }
 
-        const hashedPassword = await bcrypt.hash(data.password, 10);
+        try {
+            if (!flag2) {
+                return res.json({ error: "user not available" });
+            }
+            else{
+                if (await bcrypt.compare(loginpass, flag2.password)) {
+                    const token = jwt.sign({ email: flag2.email }, JWT_SECRET)
+                    if (res.status(201)) {
+                        return res.json({
+                            status: 'ok', token: token, details: flag2
+                        })
+                    }
+                    else {
+                        return res.json({ error: "error" });
+                    }
+                }
+                res.send({ staus: 'error', error: "invalid password" });
+            }
 
-        const newUser = await user.create({
-            name: data.name,
-            age: data.age,
-            aadharNo: data.aadharNo,
-            gender: data.gender,
-            constituency: data.constituency,
-            mobileNumber: data.mobileNumber,
-            email: data.email,
-            password: hashedPassword,
-            aadharImage: data.aadharImage,
-            profileImage: data.profileImage,
-            userType: data.userType
-        });
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
 
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
-    } catch (error) {
-        console.error('Error registering user:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+        if(flag1 && flag2){
+            res.send({staus:"No account available"})
+        }
+})
+
+
 
 
 
