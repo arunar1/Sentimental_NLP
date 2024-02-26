@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-  constituencyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Constituency', required: true },
+    constituency: { type: String, required: true },
   projectId: { type: Number, required: true, unique: true },
   projectName: { type: String, required: true },
   projectDetails: { type: String, required: true }

@@ -40,6 +40,11 @@ app.use(
     })
   );
 
+
+const user=require('./databasemodel/registrationmodel/usermodel')
+
+
+
 app.post('/api/sentiment', (req, res) => {
     // console.log(req)
 
@@ -75,9 +80,39 @@ app.post('/api/sentiment', (req, res) => {
     });
 });
 
-app.post('/registration', (req, res) => {
-    console.log(req.body)
-    res.send('POST request to /registration');
+app.post('/registration', async(req, res) => {
+    console.log(req.body);
+    const data = req.body.info;
+    const search = { "aadharNo": data.aadharNo };
+
+    try {
+        const existingUser = await user.findOne(search);
+        if (existingUser) {
+            console.log("User exists");
+            return res.status(400).json({ error: 'User already exists with this Aadhar number' });
+        }
+
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+
+        const newUser = await user.create({
+            name: data.name,
+            age: data.age,
+            aadharNo: data.aadharNo,
+            gender: data.gender,
+            constituency: data.constituency,
+            mobileNumber: data.mobileNumber,
+            email: data.email,
+            password: hashedPassword,
+            aadharImage: data.aadharImage,
+            profileImage: data.profileImage,
+            userType: data.userType
+        });
+
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 
