@@ -15,7 +15,7 @@ const PORT = 4000;
 const mongoose = require('mongoose');
 const mongourl = process.env.mong_url;
 
-mongoose.connect(mongourl, { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect(`${mongourl}=true&w=majority&appName=politiscan`, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
         console.log('Connected to MongoDB');
     })
@@ -124,7 +124,6 @@ app.post('/registration', async (req, res) => {
                     name: data.name,
                     age: data.age,
                     aadharNo: data.aadharNo,
-                    
                     gender: data.gender,
                     constituency: data.constituency,
                     mobileNumber: data.mobileNumber,
@@ -156,7 +155,7 @@ app.post('/registration', async (req, res) => {
                     mobileNumber: data.mobileNumber,
                     email: data.email,
                     password: hashedPassword,
-                    aadharImage: picdata.aadhar, 
+                    aadharImage: picdata.aadhar, // Ensure this field is provided
                     profileImage: picdata.profile,
                     userType: data.userType
                 });
@@ -164,7 +163,7 @@ app.post('/registration', async (req, res) => {
                 return res.status(201).json({ message: 'Admin registered successfully', admin: newAdmin });
             }
         } catch (error) {
-            console.error('Error registering:', error);
+            console.error('Error registering user/admin:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         
