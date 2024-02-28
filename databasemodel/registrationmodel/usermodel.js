@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   aadharNo:{type:Number,required:true, unique: true},
   gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
   constituency: { type: String, required: true },
-  mobileNumber: { type: String, required: true },
+  mobileNumber: { type: String, required: true , unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   userType: { type: String, enum: ['user', 'admin'], required: true },

@@ -62,45 +62,63 @@ app.post('/api/sentiment', (req, res) => {
 
 const randomCode = Math.floor(100000 + Math.random() * 900000);
 
-app.post('/verification', (req , res )=>{
-    const data = req.body.info;
+app.post('/verification', async (req, res) => {
+    try {
+        const data = req.body.info;
 
-    console.log(data)
+        const searchAadhar = { "aadharNo": data.aadharNo };
+        const searchPhone = { "mobileNumber": data.mobileNumber };
 
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        host: "smtp.forwardemail.net",
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASS
+        const userRecord = await user.findOne(searchAadhar);
+        const adminRecord = await admin.findOne(searchAadhar);
+        const userRecord1 = await user.findOne(searchPhone);
+        const adminRecord1 = await admin.findOne(searchPhone);
+
+        if (userRecord || adminRecord || userRecord1 || adminRecord1) {
+            return res.status(200).send({ status: 200, message: "Account Already exists" });
         }
-    });
 
-    var mailOptions = {
-        from: process.env.EMAIL,
-        to: data.email,
-        subject: 'Your Verification Code',
-        text: `Your verification code is: ${randomCode}`
-    };
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: "smtp.forwardemail.net",
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASS
+            }
+        });
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+        var mailOptions = {
+            from: process.env.EMAIL,
+            to: data.email,
+            subject: 'Your Verification Code',
+            text: `Your verification code is: ${randomCode}`
+        };
 
-    res.send({status:"ok"})
-
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                return res.status(500).send({ status: "error", message: "Failed to send email" });
+            } else {
+                console.log('Email sent: ' + info.response);
+                return res.status(200).send({ status: "ok", message: "Email is sent" });
+            }
+        });
+    } catch (error) {
+        console.error('Error in /verification endpoint:', error);
+        return res.status(500).send({ status: "error", message: "Internal Server Error" });
+    }
 });
+
 
 // Registration endpoint
 app.post('/registration', async (req, res) => {
     const picdata = req.body;
     const data = req.body.info;
+
+    console.log(data);
+    console.log(picdata)
     
     const userType = data.userType;
     const code = req.body.verificationCode;
@@ -134,7 +152,7 @@ app.post('/registration', async (req, res) => {
                     userType: data.userType
                 });
     
-                return res.status(201).json({ message: 'User registered successfully', user: newUser });
+                return res.status(200).json({ message: 'User registered successfully', user: newUser });
             } else if (userType === 'admin') {
                 const existingAdmin = await admin.findOne(search);
                 if (existingAdmin) {
