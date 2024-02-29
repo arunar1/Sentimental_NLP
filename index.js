@@ -229,6 +229,27 @@ app.post('/login', async (req, res) => {
 });
 
 
+app.post('/projectadd', async (req, res) => {
+    try {
+      const { constituency, projectId, projectName, projectDetails } = req.body;
+  
+      
+      const newProject = new Project({
+        constituency,
+        projectId,
+        projectName,
+        projectDetails
+      });
+  
+      await newProject.save();
+  
+      res.status(201).json({ message: 'Project created successfully' });
+    } catch (error) {
+      console.error('Error creating project:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
 
 app.post('/projectsentiment', async (req, res) => {
     try {
