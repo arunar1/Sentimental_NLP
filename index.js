@@ -60,9 +60,11 @@ app.post('/api/sentiment', (req, res) => {
 
 // verification of register
 
-const randomCode = Math.floor(100000 + Math.random() * 900000);
-
+let randomCode
 app.post('/verification', async (req, res) => {
+    randomCode = Math.floor(100000 + Math.random() * 900000);
+    console.log(randomCode)
+
     try {
         const data = req.body.info;
 
@@ -143,6 +145,7 @@ app.post('/registration', async (req, res) => {
                     age: data.age,
                     aadharNo: data.aadharNo,
                     gender: data.gender,
+                    district:data.district,
                     constituency: data.constituency,
                     mobileNumber: data.mobileNumber,
                     email: data.email,
@@ -169,6 +172,7 @@ app.post('/registration', async (req, res) => {
                     adminId: data.adminId,
                     aadharNo: data.aadharNo,
                     gender: data.gender,
+                    district:data.district,
                     constituency: data.constituency,
                     mobileNumber: data.mobileNumber,
                     email: data.email,
@@ -200,6 +204,7 @@ app.post('/registration', async (req, res) => {
 
 // Login endpoint
 app.post('/login', async (req, res) => {
+    console.log(req.body)
     const { email, password } = req.body;
     const search = { "email": email };
 
@@ -209,9 +214,9 @@ app.post('/login', async (req, res) => {
 
         let foundUser = null;
         if (userRecord) {
-            foundUser = userRecord;
-        } else if (adminRecord) {
             foundUser = adminRecord;
+        } else if (adminRecord) {
+            foundUser = userRecord;
         } else {
             return res.json({ error: "User not available" });
         }
