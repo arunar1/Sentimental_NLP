@@ -4,23 +4,29 @@ const Sentiment =require('../databasemodel/projectmodel/sentiment')
 const router = express.Router();
 
 router.post('/projectadd', async (req, res) => {
+  console.log(req.body.info)
+
+  let data= req.body.info 
+  console.log(data)
     try {
-      const { constituency, projectId, projectName, projectDetails } = req.body;
   
       
-      const newProject = new project({
-        constituency,
-        projectId,
-        projectName,
-        projectDetails
+      const newProject = new Project({
+        constituency:data.constituency,
+        projectId:data.projectId,
+        projectName:data.projectName,
+        projectType:data.projectType,
+        totalBudget:data.totalBudget,
+        projectDetails:data.projectDescription
       });
   
       await newProject.save();
+
+    return res.status(200).json({message:"Project added successfully"})
   
-      res.status(201).json({ message: 'Project created successfully' });
     } catch (error) {
       console.error('Error creating project:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json(error)
     }
   });
 
