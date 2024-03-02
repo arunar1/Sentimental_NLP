@@ -12,6 +12,8 @@ const verificationRouter = require('./routers/verificationRouter');
 const registrationRouter = require('./routers/registrationRouter');
 const loginRouter = require('./routers/loginRouter');
 const projectRouter = require('./routers/projectRouter');
+const sentiment =require('./routers/sentiment')
+
 
 const mongoose = require('mongoose');
 const mongourl = process.env.mong_url;
@@ -35,10 +37,15 @@ app.use('/verification', verificationRouter);
 app.use('/registration', registrationRouter);
 app.use('/login', loginRouter);
 app.use('/project', projectRouter);
+app.use('/getsentiment',sentiment)
+
+
 
 app.get('/user', (req, res) => {
     res.send("Welcome");
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
