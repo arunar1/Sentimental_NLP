@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
                     userType: data.userType
                 });
     
-                return res.status(200).json({ message: 'User registered successfully', user: newUser });
+                return res.status(200).json({ message: 'Registered successfully', user: newUser });
             } else if (userType === 'admin') {
                 const existingAdmin = await admin.findOne(search);
                 if (existingAdmin) {
@@ -67,12 +67,12 @@ router.post('/', async (req, res) => {
                     mobileNumber: data.mobileNumber,
                     email: data.email,
                     password: hashedPassword,
-                    aadharImage: picdata.aadhar, // Ensure this field is provided
+                    aadharImage: picdata.aadhar, 
                     profileImage: picdata.profile,
                     userType: data.userType
                 });
     
-                return res.status(201).json({ message: 'Admin registered successfully', admin: newAdmin });
+                return res.status(201).json({ message: 'Registered successfully', admin: newAdmin });
             }
         } catch (error) {
             console.error('Error registering user/admin:', error);

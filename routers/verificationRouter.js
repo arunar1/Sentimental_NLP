@@ -9,7 +9,11 @@ const router = express.Router();
 
 
 router.post('/', async (req, res) => {
-    let randomCode= generateRandomCode()
+    let randomCode
+
+    setTimeout(()=>{
+         randomCode= generateRandomCode()
+    },100)
 
     console.log(randomCode)
 
