@@ -18,7 +18,8 @@ router.post('/', async (req, res) => {
 
     console.log(code)
 
-    let randomCode=getRandomCode();
+    let randomCode= await getRandomCode();
+    console.log(randomCode)
     if(randomCode==code){
         try {
             if (userType === 'user') {
@@ -82,7 +83,7 @@ router.post('/', async (req, res) => {
 
     }
     else{
-        res.send({message:"invalid code registration failed"})
+        res.send({message:"Invalid code registration failed"})
     }    
 });
 
