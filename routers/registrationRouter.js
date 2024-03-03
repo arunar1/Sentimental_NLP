@@ -82,7 +82,7 @@ router.post('/', async (req, res) => {
 
     }
     else{
-        res.send({message:"validation failed"})
+        res.send({message:"invalid code registration failed"})
     }    
 });
 
