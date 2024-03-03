@@ -9,13 +9,9 @@ const router = express.Router();
 
 
 router.post('/', async (req, res) => {
-    let randomCode
 
-    setTimeout(()=>{
-         randomCode= generateRandomCode()
-    },100)
+    
 
-    console.log(randomCode)
 
     try {
         const data = req.body.info;
@@ -32,6 +28,9 @@ router.post('/', async (req, res) => {
         if (userRecord || adminRecord || userRecord1 || adminRecord1) {
             return res.status(200).send({ status: 200, message: "Account Already exists" });
         }
+
+        const randomCode = await generateRandomCode();
+        console.log(randomCode);
 
         var transporter = nodemailer.createTransport({
             service: 'gmail',
