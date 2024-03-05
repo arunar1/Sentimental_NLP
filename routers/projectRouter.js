@@ -31,7 +31,6 @@ router.post('/projectadd', async (req, res) => {
     }
   });
 
-
   router.post('/projectsentiment', async (req, res) => {
     try {
         const { projectId, sentimentData } = req.body;
@@ -40,41 +39,39 @@ router.post('/projectadd', async (req, res) => {
 
         let sentiment;
 
-        if (value == 0 || value == 1) {
+        if (value === 0 || value === 1) {
             sentiment = 1;
-        } else if (value == -1) {
+        } else if (value === -1) {
             sentiment = 0;
         }
-
-        console.log(sentiment);
-        console.log(req.body);
 
         let existingProject = await Sentiment.findOne({ projectId });
 
         if (existingProject) {
             const existingSentiment = existingProject.sentimentData.find(data => data.aadharNo === sentimentData.aadharNo);
             if (existingSentiment) {
-                return res.status(200).send({ message: 'Sentiment data with the same Aadhar number already exists for this project' });
+                return res.status(202).send({ message: 'Sentiment data with the same Aadhar number already exists for this project' });
             }
-            existingProject.sentimentData.push({
-                aadharNo: sentimentData.aadharNo,
-                sentiment: sentimentData.sentiment,
-                sentimentValue: sentiment
-            });
+        }
+
+        const newSentimentData = {
+            aadharNo: sentimentData.aadharNo,
+            sentiment: sentimentData.sentiment,
+            sentimentValue: sentiment
+        };
+
+        if (existingProject) {
+            existingProject.sentimentData.push(newSentimentData);
             await existingProject.save();
-            return res.status(200).json({ message: 'Sentiment data updated successfully' });
+            return res.status(200).json({ message: 'Feedback added successfully' });
         } else {
             const newProjectSentiment = new Sentiment({
                 projectId,
-                sentimentData: [{
-                    aadharNo: sentimentData.aadharNo,
-                    sentiment: sentimentData.sentiment,
-                    sentimentValue: sentiment
-                }],
+                sentimentData: [newSentimentData],
                 constituency: req.body.constituency
             });
             await newProjectSentiment.save();
-            return res.status(201).json({ message: 'Sentiment data added successfully' });
+            return res.status(201).json({ message: 'Feedback added successfully' });
         }
     } catch (error) {
         console.error('Error adding/updating sentiment data:', error);
@@ -84,7 +81,6 @@ router.post('/projectadd', async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 
 
 router.post('/getByConstituency', async (req, res) => {
@@ -111,6 +107,23 @@ router.post('/getByConstituency', async (req, res) => {
   }
 });
 
+
+
+router.post('/sentimentResult', async (req, res) => {
+  try {
+    const { projectId } = req.body;
+
+    console.log(projectId)
+
+
+    const sentimentData = await Sentiment.find({ projectId });
+    console.log(sentimentData[0])
+    res.status(200).json(sentimentData);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 
