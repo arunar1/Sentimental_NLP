@@ -125,6 +125,36 @@ router.post('/sentimentResult', async (req, res) => {
   }
 });
 
+router.post('/allsentimentResult', async (req, res) => {
+  try {
+    const { constituency } = req.body;
+
+    console.log(req.body)
+
+
+    const sentimentData = await Sentiment.find({ constituency });
+    console.log(sentimentData)
+    res.status(200).json(sentimentData);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/getProjectByCode', async (req , res)=>{
+  try {
+    console.log(req.body)
+    projectId =req.body.code
+    const projects = await Project.find({ projectId });
+
+    return res.status(200).json(projects)
+
+    
+  } catch (error) {
+    
+  }
+})
+
 
 
 module.exports = router;
