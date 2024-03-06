@@ -12,6 +12,13 @@ router.post('/', async (req, res) => {
         const data = req.body.info;
         console.log(data);
 
+        if(data.userType=='admin'){
+            if(data.adminId!='abcd'){
+                return res.status(200).send({ status: 200, message: "Admin Id invalid" });
+
+            }
+        }
+
         const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail.com$/;
         if (!gmailRegex.test(data.email)) {
             console.log("hello")
