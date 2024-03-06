@@ -4,6 +4,7 @@ const { spawn } = require('child_process');
 const router = express.Router();
 
 router.post('/', (req, res) => {
+    let value
     const inputData = req.body.text;
 
     const pythonProcess = spawn('poetry', ['run', 'python', './inference.py', inputData]);
@@ -21,7 +22,14 @@ router.post('/', (req, res) => {
     pythonProcess.on('close', (code) => {
         console.log(`Python script exited with code ${code}`);
         console.log(output);
-        res.send({ sentiment: output.trim() });
+        if(output.trim()=='Positive'){
+            value=1
+        }
+        else if(output.trim()=='Negative'){
+            value=-1
+        }
+
+        res.send({status:'ok', sentiment: output.trim(),response:value });
     });
 });
 
