@@ -38,8 +38,15 @@ router.post('/', async (req, res) => {
         const userRecord_2 = await user.findOne(searchGmail);
         const adminRecord_2 = await admin.findOne(searchGmail);
 
-        if (userRecord || adminRecord || userRecord1 || adminRecord1 || userRecord_2 || adminRecord_2) {
-            return res.status(200).send({ status: 200, message: "Account Already exists" });
+        if (userRecord || adminRecord ) {
+            return res.status(200).send({ status: 200, message: "Adhaar Already exists" });
+        }
+        if( userRecord1 || adminRecord1){
+            return res.status(200).send({ status: 200, message: "Mobile Number Already exists" });
+        }
+        if(userRecord_2 || adminRecord_2){
+            return res.status(200).send({ status: 200, message: "Mail Id Already exists" });
+    
         }
 
         const randomCode = await generateRandomCode();
