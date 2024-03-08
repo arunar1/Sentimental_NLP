@@ -82,7 +82,7 @@ router.post('/', async (req, res) => {
                 return res.status(500).send({ status: "error", message: "Failed to send email" });
             } else {
                 console.log('Email sent: ' + info.response);
-                return res.status(200).send({ status: "ok", message: "Email is sent" });
+                return res.status(200).send({ status: "ok", message: "Email sent" });
             }
         });
     } catch (error) {
