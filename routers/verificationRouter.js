@@ -38,6 +38,8 @@ router.post('/', async (req, res) => {
         const userRecord_2 = await user.findOne(searchGmail);
         const adminRecord_2 = await admin.findOne(searchGmail);
 
+        console.log(req.body.aadhar)
+
         if (userRecord || adminRecord ) {
             return res.status(200).send({ status: 200, message: "Adhaar Already exists" });
         }
@@ -47,6 +49,10 @@ router.post('/', async (req, res) => {
         if(userRecord_2 || adminRecord_2){
             return res.status(200).send({ status: 200, message: "Mail Id Already exists" });
     
+        }
+        if(!req.body.aadhar && !req.body.profile){
+            return res.status(200).send({ status: 200, message: "file uploading failed" });
+
         }
 
         const randomCode = await generateRandomCode();
