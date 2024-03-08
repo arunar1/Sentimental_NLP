@@ -171,8 +171,11 @@ function getSentiment(str) {
   const analyzed = analyzer.getSentiment(stopWordsRemoved);
   console.log(analyzed)
 
-  if (analyzed >= 0.6) return 1; // positive
-  if (analyzed >= 0 ) return 0;
+  console.log(analyzed)
+
+
+
+  if (analyzed >= .6) return 1; // positive
   return -1;
 }
 

@@ -10,6 +10,8 @@ router.post('/', (req , res )=>{
 
     const value=getSentiment(text)
 
+    console.log(value)
+
     let sentiment
 
     if(value==0 || value==1){
