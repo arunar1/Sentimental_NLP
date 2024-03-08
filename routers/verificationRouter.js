@@ -85,7 +85,6 @@ router.post('/', async (req, res) => {
                 return res.status(200).send({ status: "ok", message: "Email is sent" });
             }
         });
-        res.send({message:"Email send"})
     } catch (error) {
         console.error('Error in /verification endpoint:', error);
         return res.status(500).send({ status: "error", message: "Internal Server Error" });
