@@ -58,6 +58,8 @@ router.post('/projectadd', async (req, res) => {
 
         const value = getSentiment(sentimentData.sentiment);
 
+        // const value =await sentimentAnalysis(sentimentData.sentiment)
+
 
         
         console.log(value)
