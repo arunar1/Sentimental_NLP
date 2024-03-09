@@ -175,7 +175,7 @@ function getSentiment(str) {
 
 
 
-  if (analyzed >= .6) return 1; // positive
+  if (analyzed > .6) return 1; // positive
   return -1;
 }
 
