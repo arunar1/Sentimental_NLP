@@ -7,13 +7,16 @@ const { generateRandomCode } = require('../RandomCodeGen/random');
 
 const router = express.Router();
 
+const validAdminIds = ['abc123', 'def456', 'ghi789']; 
+
+
 router.post('/', async (req, res) => {
     try {
         const data = req.body.info;
         console.log(data);
 
         if(data.userType=='admin'){
-            if(data.adminId!='abcd'){
+            if(!validAdminIds.includes(data.adminId)){
                 return res.status(200).send({ status: 200, message: "Admin Id invalid" });
 
             }
