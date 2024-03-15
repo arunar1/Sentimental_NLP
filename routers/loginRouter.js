@@ -29,7 +29,12 @@ router.post('/', async (req, res) => {
             return res.json({ error: "User not available" });
         }
 
+
         if (foundUser && foundUser.password) {
+            if(!foundUser.verified){
+                return res.json({ status: 'error', error: "Verification is not completed" });
+
+            }
             if (await bcrypt.compare(password, foundUser.password)) {
                 const token = jwt.sign({ email: foundUser.email }, JWT_SECRET);
                 return res.status(201).json({ status: 'ok', token: token, details: foundUser });
@@ -49,8 +54,9 @@ router.post('/', async (req, res) => {
 router.get('/checkUser', async (req, res) => {
     try {
         const userRecords = await user.find(); 
-        console.log(userRecords)
-        res.status(200).json(userRecords); 
+        const adminRecord = await admin.find();
+        console.log(adminRecord)
+        res.status(200).json({userdetails:userRecords,admindetails:adminRecord}); 
     } catch (error) {
         console.error('Error fetching user records:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -63,7 +69,7 @@ router.put('/admin/verify/:userId', async (req, res) => {
     const userId = req.params.userId;
 
     try {
-        const User = await user.findByIdAndUpdate(userId, { verified: true }, { new: true });
+        const User = await user.findByIdAndUpdate(userId, { verified: true }, { new: true }) || await admin.findByIdAndUpdate(userId, { verified: true }, { new: true });
 
         console.log(User)
 

@@ -13,6 +13,7 @@ const registrationRouter = require('./routers/registrationRouter');
 const loginRouter = require('./routers/loginRouter');
 const projectRouter = require('./routers/projectRouter');
 const sentiment =require('./routers/sentiment')
+const  addPoll=require('./routers/addPoll')
 
 
 const mongoose = require('mongoose');
@@ -38,7 +39,7 @@ app.use('/registration', registrationRouter);
 app.use('/login', loginRouter);
 app.use('/project', projectRouter);
 app.use('/getsentiment',sentiment)
-
+app.use('/',addPoll)
 
 
 app.get('/user', (req, res) => {
