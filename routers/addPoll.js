@@ -75,10 +75,31 @@ router.get('/getpoll', async(req , res )=>{
     } catch (error) {
         
     }
-
-    
-
-
 })
+
+
+
+router.delete('/deletePoll', async (req, res) => {
+    const { description } = req.body;
+
+    console.log(description)
+
+    try {
+        const deletedPoll = await Poll.findOneAndDelete({ description });
+
+        const deleteAllResult=await PollResult.deleteMany({description})
+
+        console.log(deleteAllResult)
+
+        if (!deletedPoll) {
+            return res.status(404).json({ error: 'Poll not found' });
+        }
+
+        res.status(200).json({ message: 'Poll deleted successfully', deletedPoll });
+    } catch (error) {
+        console.error('Error deleting poll:', error);
+        res.status(500).json({ error: 'Failed to delete poll' });
+    }
+});
 
 module.exports = router;
