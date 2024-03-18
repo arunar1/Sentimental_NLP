@@ -42,10 +42,20 @@ router.post('/projectadd', async (req, res) => {
     if (existingProject) {
       const existingSentiment = existingProject.sentimentData.find(data => data.aadharNo === sentimentData.aadharNo);
       if (existingSentiment) {
-          return res.status(202).send({ message: 'Already Feedback added', details:existingSentiment });
+          return res.status(202).send({ message: 'Already Feedback added', details:existingSentiment ,projectDetails:existingProject});
       }
   }
 
+
+  })
+
+  router.post('/AllprojectSentimentCheck', async (req, res)=>{
+    const { projectId, sentimentData } = req.body;
+
+    let existingProject = await Sentiment.find()
+    console.log(existingProject)
+    return res.status(202).send({projectDetails:existingProject});
+ 
 
   })
 
@@ -56,9 +66,9 @@ router.post('/projectadd', async (req, res) => {
     try {
         const { projectId, sentimentData } = req.body;
 
-        // const value = getSentiment(sentimentData.sentiment);
+        const value = getSentiment(sentimentData.sentiment);
 
-        const value =await sentimentAnalysis(sentimentData.sentiment)
+        // const value =await sentimentAnalysis(sentimentData.sentiment)
 
 
         
