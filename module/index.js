@@ -1,0 +1,2 @@
+const {today} =require('./data')
+

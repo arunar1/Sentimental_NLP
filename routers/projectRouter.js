@@ -5,7 +5,7 @@ const router = express.Router();
 const {getSentiment} =require('../nlp')
 const sentimentAnalysis = require('../sentimentAnalysis');
 const {sentimentValue}=require('../sentimentValue')
-
+const {today}=require('../module/data')
 
 router.post('/projectadd', async (req, res) => {
   console.log(req.body.info)
@@ -21,7 +21,8 @@ router.post('/projectadd', async (req, res) => {
         projectName:data.projectName,
         projectType:data.projectType,
         totalBudget:data.totalBudget,
-        projectDetails:data.projectDescription
+        projectDetails:data.projectDescription,
+        Date:today,
       });
   
       await newProject.save();
@@ -196,6 +197,30 @@ router.post('/getProjectByCode', async (req , res)=>{
     
   }
 })
+
+
+router.delete('/deleteProject', async (req, res) => {
+  const { projectId } = req.body;
+
+  
+
+  try {
+      const deletedProject = await Project.findOneAndDelete({ projectId });
+
+      const deleteAllProject=await Sentiment.deleteMany({projectId})
+
+      console.log(deleteAllProject)
+
+      if (!deletedProject) {
+          return res.status(404).json({ error: 'project not found' });
+      }
+
+      res.status(200).json({ message: 'Project deleted successfully', deletedProject });
+  } catch (error) {
+      console.error('Error deleting Project:', error);
+      res.status(500).json({ error: 'Failed to delete project' });
+  }
+});
 
 
 
