@@ -65,6 +65,8 @@ router.post('/projectadd', async (req, res) => {
 
 
   router.post('/projectsentiment', async (req, res) => {
+
+    console.log(req.body)
     try {
         const { projectId, sentimentData } = req.body;
 
@@ -111,7 +113,8 @@ router.post('/projectadd', async (req, res) => {
             const newProjectSentiment = new Sentiment({
                 projectId,
                 sentimentData: [newSentimentData],
-                constituency: req.body.constituency
+                constituency: req.body.constituency,
+                projectName:req.body.projectName
             });
             await newProjectSentiment.save();
             return res.status(201).json({ message: 'Feedback added successfully' });
