@@ -1,9 +1,10 @@
 
 
-const sentiment = async (data) => {
+const sentimentValue = async (data) => {
     try {
         const maxScorePrediction = await query({ "inputs": data });
 
+        // Extract sentiment label with the highest score
         const predictions = maxScorePrediction[0];
         const highestScorePrediction = predictions.reduce((max, prediction) => (prediction.score > max.score ? prediction : max), { score: -1 });
 
@@ -18,7 +19,7 @@ const sentiment = async (data) => {
         }
     } catch (error) {
         console.error("Error fetching data:", error.message);
-        throw error; 
+        throw error; // Propagate the error if needed
     }
 };
 
@@ -36,4 +37,4 @@ const query = async (data) => {
     return result;
 };
 
-module.exports = { sentiment };
+module.exports = { sentimentValue };
