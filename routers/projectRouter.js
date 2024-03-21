@@ -4,6 +4,7 @@ const Sentiment =require('../databasemodel/projectmodel/sentiment')
 const router = express.Router();
 const {getSentiment} =require('../nlp')
 const sentimentAnalysis = require('../sentimentAnalysis');
+const {sentiment}=require('../sentiment')
 
 
 router.post('/projectadd', async (req, res) => {
@@ -66,9 +67,11 @@ router.post('/projectadd', async (req, res) => {
     try {
         const { projectId, sentimentData } = req.body;
 
-        const value = getSentiment(sentimentData.sentiment);
+        // const value = getSentiment(sentimentData.sentiment);
 
         // const value =await sentimentAnalysis(sentimentData.sentiment)
+
+         const value= sentiment(sentimentData.sentiment)
 
 
         
