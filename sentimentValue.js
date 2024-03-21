@@ -1,26 +1,25 @@
+const sentimentValue = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const maxScorePrediction = await query({ "inputs": data });
 
+            const predictions = maxScorePrediction[0];
+            const highestScorePrediction = predictions.reduce((max, prediction) => (prediction.score > max.score ? prediction : max), { score: -1 });
 
-const sentimentValue = async (data) => {
-    try {
-        const maxScorePrediction = await query({ "inputs": data });
+            console.log("Predicted Sentiment:", highestScorePrediction.label);
 
-        // Extract sentiment label with the highest score
-        const predictions = maxScorePrediction[0];
-        const highestScorePrediction = predictions.reduce((max, prediction) => (prediction.score > max.score ? prediction : max), { score: -1 });
-
-        console.log("Predicted Sentiment:", highestScorePrediction.label);
-
-        if (highestScorePrediction.label === 'positive') {
-            return 1;
-        } else if (highestScorePrediction.label === 'negative') {
-            return -1;
-        } else {
-            return 0;
+            if (highestScorePrediction.label === 'positive') {
+                resolve(1);
+            } else if (highestScorePrediction.label === 'negative') {
+                resolve(-1);
+            } else {
+                resolve(0);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error.message);
+            reject(error); // Reject the promise with the error
         }
-    } catch (error) {
-        console.error("Error fetching data:", error.message);
-        throw error; // Propagate the error if needed
-    }
+    });
 };
 
 const query = async (data) => {
