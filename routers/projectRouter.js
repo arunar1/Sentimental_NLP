@@ -71,7 +71,7 @@ router.post('/projectadd', async (req, res) => {
 
         // const value =await sentimentAnalysis(sentimentData.sentiment)
 
-         const value= sentiment(sentimentData.sentiment)
+         const value= await sentiment(sentimentData.sentiment)
 
 
         
