@@ -2,8 +2,10 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const admin = require('../databasemodel/registrationmodel/admin');
 const user = require('../databasemodel/registrationmodel/usermodel');
+const bcrypt = require('bcryptjs');
 
 const { generateRandomCode } = require('../RandomCodeGen/random');
+const { getRandomCode } = require('../RandomCodeGen/random');
 
 const router = express.Router();
 
@@ -93,5 +95,102 @@ router.post('/', async (req, res) => {
         return res.status(500).send({ status: "error", message: "Internal Server Error" });
     }
 });
+
+
+router.post('/forgotpass',async(req , res )=>{
+    const data= req.body;
+
+    console.log(data)
+
+    const searchGmail={"email":data.email};
+
+
+    const userRecord_2 = await user.findOne(searchGmail);
+    const adminRecord_2 = await admin.findOne(searchGmail);
+
+
+    if(userRecord_2 || adminRecord_2){
+        try {
+            const randomCode = await generateRandomCode();
+        console.log(randomCode);
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: "smtp.forwardemail.net",
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASS
+            }
+        });
+
+        var mailOptions = {
+            from: process.env.EMAIL,
+            to: data.email,
+            subject: 'Your Verification Code',
+            text: `Your verification code is: ${randomCode}`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                return res.status(500).send({ status: "error", message: "Failed to send email" });
+            } else {
+                console.log('Email sent: ' + info.response);
+                return res.status(200).send({ status: "ok", message: "Email sent" });
+            }
+        });
+            
+        } catch (error) {
+            
+        }
+        
+    } 
+
+})
+
+
+router.post('/forgotpassverify',async(req , res)=>{
+
+    const code = req.body.verificationCode;
+
+
+    console.log(code)
+
+    let randomCode= await getRandomCode();
+
+    console.log(randomCode)
+
+    if(code==randomCode){
+        return res.status(200).send({message:"code accepted"})
+    }
+
+})
+
+
+router.put('/updatepass', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        let foundUser = await user.findOne({ email });
+        if (!foundUser) {
+            foundUser = await admin.findOne({ email });
+        }
+
+        if (foundUser) {
+            await foundUser.updateOne({ password: hashedPassword });
+            res.status(200).json({ message: "Password updated successfully" });
+        } else {
+            res.status(404).json({ error: "User not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 
 module.exports = router;
