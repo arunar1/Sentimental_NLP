@@ -45,7 +45,7 @@ app.use('/',addPoll);
 app.use('/delete',deleteAccount)
 
 
-app.get('/checksentiment',async(req ,res )=>{
+app.use('/checksentiment',async(req ,res )=>{
     let text=req.body.text
 
     let score=await sentimentValue(text)
