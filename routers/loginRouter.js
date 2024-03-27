@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const admin = require('../databasemodel/registrationmodel/admin');
 const user = require('../databasemodel/registrationmodel/usermodel');
 const JWT_SECRET = process.env.jwt_code;
+const  nodemailer=require('nodemailer')
 
 const router = express.Router();
 
@@ -77,8 +78,41 @@ router.put('/admin/verify/:userId', async (req, res) => {
         if (!User) {
             return res.status(404).json({ message: 'User not found' });
         }
+        try {
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: "smtp.forwardemail.net",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASS
+                }
+            });
+    
+            var mailOptions = {
+                from: process.env.EMAIL,
+                to: User.email,
+                subject: 'Verification completed',
+                text: `Your Account has been successully verified`
+            };
+    
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).send({ status: "error", message: "Failed to send email" });
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    return res.status(200).json({ message: 'User verified successfully', user });
 
-        return res.status(200).json({ message: 'User verified successfully', user });
+                }
+            });
+            
+        } catch (error) {
+            
+        }
+        
+
     } catch (error) {
         console.error('Error verifying user:', error);
         return res.status(500).json({ message: 'Internal server error' });

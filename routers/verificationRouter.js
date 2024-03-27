@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
         const searchAadhar = { "aadharNo": data.aadharNo };
         const searchPhone = { "mobileNumber": data.mobileNumber };
         const searchGmail={"email":data.email};
+        const searchConstituency={"constituency":data.constituency}
 
         const userRecord = await user.findOne(searchAadhar);
         const adminRecord = await admin.findOne(searchAadhar);
@@ -42,6 +43,8 @@ router.post('/', async (req, res) => {
         const adminRecord1 = await admin.findOne(searchPhone);
         const userRecord_2 = await user.findOne(searchGmail);
         const adminRecord_2 = await admin.findOne(searchGmail);
+        const adminRecord_3 = await admin.findOne(searchConstituency);
+
 
         console.log(req.body.aadhar)
 
@@ -57,6 +60,10 @@ router.post('/', async (req, res) => {
         }
         if(!req.body.aadhar && !req.body.profile){
             return res.status(200).send({ status: 200, message: "file uploading failed" });
+
+        }
+        if(adminRecord_3){
+            return res.status(200).send({ status: 200, message: "Constituency Duplication select the correct one" });
 
         }
 
@@ -146,7 +153,11 @@ router.post('/forgotpass',async(req , res )=>{
             
         }
         
-    } 
+    }
+    else{
+        return res.status(200).send({ status: "error", message: "Failed to send email" });
+
+    }
 
 })
 
