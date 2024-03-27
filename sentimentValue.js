@@ -29,7 +29,7 @@ const query = async (data) => {
         {
             headers: { Authorization: `Bearer ${process.env.TOKEN_ID}` },
             method: "POST",
-            body: JSON.stringify({ ...data,option:{
+            body: JSON.stringify({ ...data,options:{
                 wait_for_model:true,
             }})
         }
