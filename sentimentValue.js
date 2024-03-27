@@ -1,5 +1,6 @@
 const sentimentValue = (data) => {
     return new Promise(async (resolve, reject) => {
+        console.log(data)
         try {
             const maxScorePrediction = await query({ "inputs": data });
 
@@ -28,7 +29,9 @@ const query = async (data) => {
         {
             headers: { Authorization: `Bearer ${process.env.TOKEN_ID}` },
             method: "POST",
-            body: JSON.stringify(data),
+            body: JSON.stringify({ ...data,option:{
+                wait_for_model:true,
+            }})
         }
     );
     const result = await response.json();

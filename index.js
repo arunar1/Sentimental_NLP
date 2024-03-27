@@ -16,6 +16,8 @@ const sentiment =require('./routers/sentiment')
 const  addPoll=require('./routers/addPoll')
 const deleteAccount=require('./routers/delete')
 
+const {sentimentValue}=require('./sentimentValue')
+
 const mongoose = require('mongoose');
 const mongourl = process.env.mong_url;
 
@@ -41,6 +43,12 @@ app.use('/project', projectRouter);
 app.use('/getsentiment',sentiment)
 app.use('/',addPoll);
 app.use('/delete',deleteAccount)
+
+
+app.get('/checksentiment',async(req ,res )=>{
+
+    return sentimentValue(req.body.text)
+})
 
 
 app.get('/user', (req, res) => {

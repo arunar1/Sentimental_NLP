@@ -44,7 +44,7 @@ router.delete('/deleteaccount', async ( req , res ) => {
                 var mailOptions = {
                     from: process.env.EMAIL,
                     to: email,
-                    subject: 'Deletion',
+                    subject: 'Account Deletion',
                     text: `Your Account deleted successfully`
                 };
         
@@ -102,7 +102,7 @@ router.delete('/deleteaccountbyadmin', async ( req , res ) => {
                 var mailOptions = {
                     from: process.env.EMAIL,
                     to: email,
-                    subject: 'Rejection',
+                    subject: 'Registration Rejected',
                     text: `Your verification cannot be completed and registration rejected`
                 };
         
