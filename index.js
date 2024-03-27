@@ -46,8 +46,11 @@ app.use('/delete',deleteAccount)
 
 
 app.get('/checksentiment',async(req ,res )=>{
+    let text=req.body.text
 
-    return sentimentValue(req.body.text)
+    let score=await sentimentValue(text)
+
+    return  res.send({value:score})
 })
 
 
