@@ -36,23 +36,24 @@ router.post('/projectadd', async (req, res) => {
     }
   });
 
-  router.post('/projectSentimentCheck', async (req, res)=>{
+  router.post('/projectSentimentCheck', async (req, res) => {
     const { projectId, sentimentData } = req.body;
 
     let existingProject = await Sentiment.findOne({ projectId });
 
     if (existingProject) {
-      const existingSentiment = existingProject.sentimentData.find(data => data.aadharNo === sentimentData.aadharNo);
-      if (existingSentiment) {
-          return res.status(202).send({ message: 'Already Feedback added', details:existingSentiment ,projectDetails:existingProject});
-      }
-      else{
-        return res.status(202).send({ message: 'Feedback not added'})
-      }
-  }
+        const existingSentiment = existingProject.sentimentData.find(data => data.aadharNo === sentimentData.aadharNo);
+        console.log(existingSentiment)
+        if (existingSentiment) {
+            return res.status(202).send({ message: 'Already Feedback added', details: existingSentiment, projectDetails: existingProject });
+        } else {
+          return res.status(202).send({ message: 'Feedback not added' });
+        }
+    } else {
+      return res.status(202).send({ message: 'Feedback not added' });
+    }
+});
 
-
-  })
 
   router.post('/AllprojectSentimentCheck', async (req, res)=>{
     const { projectId, sentimentData } = req.body;

@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
             return res.status(200).send({ status: 200, message: "file uploading failed" });
 
         }
-        if(adminRecord_3){
+        if(req.body.userType=='admin' && adminRecord_3){
             return res.status(200).send({ status: 200, message: "Constituency Duplication select the correct one" });
 
         }
