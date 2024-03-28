@@ -1,7 +1,7 @@
 bcc==0.18.0
 blinker==1.7.0
 Brlapi==0.8.3
-certifi==2020.6.20
+certifi==2023.7.22
 chardet==4.0.0
 chrome-gnome-shell==0.0.0
 click==8.1.7
