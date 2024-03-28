@@ -46,6 +46,9 @@ router.post('/projectadd', async (req, res) => {
       if (existingSentiment) {
           return res.status(202).send({ message: 'Already Feedback added', details:existingSentiment ,projectDetails:existingProject});
       }
+      else{
+        return res.status(202).send({ message: 'Feedback not added'})
+      }
   }
 
 
