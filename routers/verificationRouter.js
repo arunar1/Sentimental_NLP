@@ -135,7 +135,7 @@ router.post('/forgotpass',async(req , res )=>{
         var mailOptions = {
             from: process.env.EMAIL,
             to: data.email,
-            subject: 'FOrgot Password Verification Code',
+            subject: 'Forgot Password Verification Code',
             text: `Your verification code is: ${randomCode}`
         };
 
