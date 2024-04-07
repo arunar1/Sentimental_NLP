@@ -2,13 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Poll = require('../databasemodel/poll/poll')
 const PollResult = require('../databasemodel/poll/pollResult')
+const {today}=require('../module/data')
 
 router.post('/addpoll', async (req, res) => {
     console.log(req.body)
     try {
 
         const newpoll = await Poll.create({
-            description:req.body.description
+            description:req.body.description,
+            constituency:req.body.constituency,
+            date:today
         })
         
         

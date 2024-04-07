@@ -5,6 +5,13 @@ const pollSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique:true
+    },
+    constituency:{
+        type:String,
+    },
+    date:{
+        type:String,
+        required:true
     }
 });
 
