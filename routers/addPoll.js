@@ -80,6 +80,19 @@ router.get('/getpoll', async(req , res )=>{
     }
 })
 
+router.get('/getAllpollResult', async(req , res )=>{
+
+
+    try {
+        const pollRecords = await PollResult.find(); 
+        
+        return res.status(200).json({data:pollRecords})
+        
+    } catch (error) {
+        
+    }
+})
+
 
 
 router.delete('/deletePoll', async (req, res) => {
