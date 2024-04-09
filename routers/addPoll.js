@@ -80,15 +80,17 @@ router.get('/getpoll', async(req , res )=>{
     }
 })
 
-router.get('/getAllpollResult', async (req, res) => {
+
+
+router.get('/getAllpollResult',async(req , res)=>{
     try {
-        const pollRecords = await PollResult.find();
-        return res.status(200).json({ data: pollRecords });
+        const pollResultRecords = await PollResult.find(); 
+
+        return res.status(200).json({data:pollResultRecords})
     } catch (error) {
-        console.error('Error fetching poll results:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        
     }
-});
+})
 
 
 
