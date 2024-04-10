@@ -6,6 +6,8 @@ const {today}=require('../module/data')
 
 router.post('/addpoll', async (req, res) => {
     console.log(req.body.constituency)
+
+    console.log(today)
     try {
 
         const newpoll = await Poll.create({
