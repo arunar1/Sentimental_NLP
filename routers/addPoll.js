@@ -5,7 +5,7 @@ const PollResult = require('../databasemodel/poll/pollResult')
 const {today}=require('../module/data')
 
 router.post('/addpoll', async (req, res) => {
-    console.log(req.body.constituency)
+    console.log(req.body)
 
     console.log(today)
     try {
