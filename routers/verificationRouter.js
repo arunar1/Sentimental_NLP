@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
     
         }
         if(!req.body.aadhar && !req.body.profile){
-            return res.status(200).send({ status: 200, message: "file uploading failed" });
+            return res.status(200).send({ status: 200, message: "File uploading failed due bad network please try again..." });
 
         }
         if(data.userType=='admin' && adminRecord_3){
