@@ -44,7 +44,6 @@ router.post('/addingpoll', async (req, res) => {
 });
 
 router.post('/addingPollCheck',async(req,res )=>{
-
     console.log(req.body)
     const { description, aadhar} = req.body;
     let existingPoll = await PollResult.findOne({ description, aadhar });
@@ -53,8 +52,6 @@ router.post('/addingPollCheck',async(req,res )=>{
         return res.status(200).json({flag:true})
     }
 })
-
-
 
 router.get('/getPollResult',async(req , res)=>{
     try {
@@ -72,8 +69,10 @@ router.get('/getpoll', async(req , res )=>{
 
     try {
         const pollRecords = await Poll.find(); 
+
+        let limit=2;
         
-        return res.status(200).json({data:pollRecords})
+        return res.status(200).json({data:pollRecords,limit:limit})
         
     } catch (error) {
         
@@ -82,15 +81,7 @@ router.get('/getpoll', async(req , res )=>{
 
 
 
-router.get('/getAllpollResult',async(req , res)=>{
-    try {
-        const pollResultRecords = await PollResult.find(); 
 
-        return res.status(200).json({data:pollResultRecords})
-    } catch (error) {
-        
-    }
-})
 
 
 

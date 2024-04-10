@@ -8,10 +8,11 @@ const pollSchema = new mongoose.Schema({
     },
     constituency:{
         type:String,
+        required:true,
     },
     date:{
         type:String,
-        required:true
+        required:true,
     }
 });
 
