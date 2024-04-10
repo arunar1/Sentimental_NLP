@@ -7,12 +7,20 @@ const {today}=require('../module/data')
 router.post('/addpoll', async (req, res) => {
     console.log(req.body)
 
+    let constituency=''
+    if(req.body.constituency!=''){
+        constituency=req.body.constituency
+    }
+    else{
+        constituency='nodata'
+    }
+    console.log(constituency)
     console.log(today)
     try {
 
         const newpoll = await Poll.create({
             description:req.body.description,
-            constituency:req.body.constituency,
+            constituency,
             date:today
         })
         
