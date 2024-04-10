@@ -70,9 +70,9 @@ router.get('/getpoll', async(req , res )=>{
     try {
         const pollRecords = await Poll.find(); 
 
-        let limit=2;
+     
         
-        return res.status(200).json({data:pollRecords,limit:limit})
+        return res.status(200).json({data:pollRecords})
         
     } catch (error) {
         
