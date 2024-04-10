@@ -36,6 +36,42 @@ router.post('/projectadd', async (req, res) => {
     }
   });
 
+
+  router.put('/projectupdate', async (req, res) => {
+    console.log(req.body.info);
+
+    let data = req.body.info;
+    console.log(data);
+    
+    try {
+        const updatedProject = await Project.findOneAndUpdate(
+            { projectId: data.projectId }, 
+            { 
+                projectName: data.projectName,
+                projectType: data.projectType,
+                totalBudget: data.totalBudget,
+                projectDetails: data.projectDescription
+            },
+            { new: true } 
+        );
+
+        if (updatedProject) {
+            return res.status(200).json({ message: "Project updated successfully" });
+        } else {
+            return res.status(404).json({ error: "Project not found" });
+        }
+    } catch (error) {
+        console.error('Error updating project:', error);
+        return res.status(500).json({ error: 'An error occurred while updating the project' });
+    }
+});
+
+
+
+
+
+
+
   router.post('/projectSentimentCheck', async (req, res) => {
     const { projectId, sentimentData } = req.body;
 
