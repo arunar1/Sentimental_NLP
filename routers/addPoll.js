@@ -12,7 +12,7 @@ router.post('/addpoll', async (req, res) => {
         constituency=req.body.constituency
     }
     else{
-        constituency='nodata'
+        constituency='Admin'
     }
     console.log(constituency)
     console.log(today)
