@@ -13,6 +13,10 @@ const pollSchema = new mongoose.Schema({
     date:{
         type:String,
         required:true,
+    },
+    district:{
+        type:String,
+        required:true
     }
 });
 

@@ -8,11 +8,14 @@ router.post('/addpoll', async (req, res) => {
     console.log(req.body)
 
     let constituency=''
+    let district=''
     if(req.body.constituency!=''){
         constituency=req.body.constituency
+        district=req.body.district
     }
     else{
-        constituency='Admin'
+        constituency='Admin',
+        district='Admin'
     }
     console.log(constituency)
     console.log(today)
@@ -21,7 +24,8 @@ router.post('/addpoll', async (req, res) => {
         const newpoll = await Poll.create({
             description:req.body.description,
             constituency,
-            date:today
+            date:today,
+            district
         })
         
         
