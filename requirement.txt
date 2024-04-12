@@ -15,7 +15,7 @@ distro==1.7.0
 Flask==3.0.2
 hidpidaemon==18.4.6
 httplib2==0.20.2
-idna==3.3
+idna==3.7
 importlib-metadata==4.6.4
 itsdangerous==2.1.2
 jeepney==0.7.1
