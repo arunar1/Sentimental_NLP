@@ -96,7 +96,7 @@ router.post('/projectadd', async (req, res) => {
 
     let existingProject = await Sentiment.find()
     console.log(existingProject)
-    return res.status(202).send({projectDetails:existingProject});
+    return res.status(202).send({projectDetails:existingProject,message:'Data fetched'});
  
 
   })
