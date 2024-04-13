@@ -65,6 +65,19 @@ router.get('/checkUser', async (req, res) => {
 });
 
 
+router.get('/:constituency', async (req, res)=>{
+    const constituency=req.params.constituency
+    console.log(constituency)
+    const search={constituency:constituency}
+    try {
+        const Users= await user.find(search)
+        console.log(Users)
+        res.send({status:200,data:Users})
+    } catch (error) {
+        
+    }
+})
+
 
 router.put('/admin/verify/:userId', async (req, res) => {
     const userId = req.params.userId;
