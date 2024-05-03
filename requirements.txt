@@ -15,7 +15,7 @@ distro==1.7.0
 Flask==3.0.2
 hidpidaemon==18.4.6
 httplib2==0.20.2
-idna==3.3
+idna==3.7
 importlib-metadata==4.6.4
 itsdangerous==2.1.2
 jeepney==0.7.1
@@ -69,7 +69,7 @@ sessioninstaller==0.0.0
 six==1.16.0
 systemd-python==234
 threadpoolctl==3.2.0
-tqdm==4.66.1
+tqdm==4.66.3
 tzdata==2023.4
 ubuntu-advantage-tools==8001
 ubuntu-drivers-common==0.0.0
